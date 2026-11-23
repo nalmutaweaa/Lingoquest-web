@@ -1,0 +1,6 @@
+build/
+.env
+__pycache__/
+speech.wav
+my_voice.wav
+passport_city.json

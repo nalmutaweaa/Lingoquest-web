@@ -1,0 +1,35 @@
+﻿id,english,category,ja_show,ja_kanji,ja_hiragana,ja_katakana,romaji,accept_ja,french,accept_fr,spanish,accept_es,model_class,image,audio_ja,audio_fr,audio_es
+1,cup,Home Adventure,コップ,,こっぷ,コップ,koppu,,tasse,,taza,vaso,cup,images/cup.png,audio/ja/cup.mp3,audio/fr/cup.mp3,audio/es/cup.mp3
+2,spoon,Home Adventure,スプーン,,すぷーん,スプーン,supuun,,cuillère,,cuchara,,spoon,images/spoon.png,audio/ja/spoon.mp3,audio/fr/spoon.mp3,audio/es/spoon.mp3
+3,pillow,Home Adventure,まくら,枕,まくら,マクラ,makura,,oreiller,,almohada,,,images/pillow.png,audio/ja/pillow.mp3,audio/fr/pillow.mp3,audio/es/pillow.mp3
+4,chair,Home Adventure,いす,椅子,いす,イス,isu,,chaise,,silla,,,images/chair.png,audio/ja/chair.mp3,audio/fr/chair.mp3,audio/es/chair.mp3
+5,toothbrush,Home Adventure,はブラシ,歯ブラシ,はぶらし,ハブラシ,haburashi,,brosse à dents,,cepillo de dientes,cepillo,,images/toothbrush.png,audio/ja/toothbrush.mp3,audio/fr/toothbrush.mp3,audio/es/toothbrush.mp3
+6,clock,Home Adventure,とけい,時計,とけい,トケイ,tokei,,horloge,,reloj,,clock,images/clock.png,audio/ja/clock.mp3,audio/fr/clock.mp3,audio/es/clock.mp3
+7,shoe,Home Adventure,くつ,靴,くつ,クツ,kutsu,,chaussure,,zapato,,,images/shoe.png,audio/ja/shoe.mp3,audio/fr/shoe.mp3,audio/es/shoe.mp3
+8,towel,Home Adventure,タオル,,たおる,タオル,taoru,,serviette,,toalla,,,images/towel.png,audio/ja/towel.mp3,audio/fr/towel.mp3,audio/es/towel.mp3
+9,key,Home Adventure,かぎ,鍵,かぎ,カギ,kagi,,clé,,llave,,,images/key.png,audio/ja/key.mp3,audio/fr/key.mp3,audio/es/key.mp3
+10,lamp,Home Adventure,ランプ,,らんぷ,ランプ,ranpu,,lampe,,lámpara,,,images/lamp.png,audio/ja/lamp.mp3,audio/fr/lamp.mp3,audio/es/lamp.mp3
+11,apple,Home Adventure,りんご,林檎,りんご,リンゴ,ringo,,pomme,,manzana,,apple,images/apple.png,audio/ja/apple.mp3,audio/fr/apple.mp3,audio/es/apple.mp3
+12,banana,Home Adventure,バナナ,,ばなな,バナナ,banana,,banane,,plátano,banana,banana,images/banana.png,audio/ja/banana.mp3,audio/fr/banana.mp3,audio/es/banana.mp3
+13,bowl,Home Adventure,おわん,お椀,おわん,オワン,owan,ボウル,bol,,cuenco,tazón|bol,bowl,images/bowl.png,audio/ja/bowl.mp3,audio/fr/bowl.mp3,audio/es/bowl.mp3
+14,teddy bear,Home Adventure,テディベア,,てでぃべあ,テディベア,tedibea,ぬいぐるみ|くまのぬいぐるみ,ours en peluche,nounours|peluche,oso de peluche,osito de peluche|peluche,teddybear,images/teddy_bear.png,audio/ja/teddy_bear.mp3,audio/fr/teddy_bear.mp3,audio/es/teddy_bear.mp3
+15,book,School Adventure,ほん,本,ほん,ホン,hon,ぽん|ぼん,livre,,libro,,book,images/book.png,audio/ja/book.mp3,audio/fr/book.mp3,audio/es/book.mp3
+16,pencil,School Adventure,えんぴつ,鉛筆,えんぴつ,エンピツ,enpitsu,,crayon,,lápiz,,pencil,images/pencil.png,audio/ja/pencil.mp3,audio/fr/pencil.mp3,audio/es/pencil.mp3
+17,scissors,School Adventure,はさみ,鋏,はさみ,ハサミ,hasami,,ciseaux,,tijeras,,scissors,images/scissors.png,audio/ja/scissors.mp3,audio/fr/scissors.mp3,audio/es/scissors.mp3
+18,backpack,School Adventure,リュック,,りゅっく,リュック,ryukku,リュックサック,sac à dos,,mochila,,bag,images/backpack.png,audio/ja/backpack.mp3,audio/fr/backpack.mp3,audio/es/backpack.mp3
+19,ruler,School Adventure,じょうぎ,定規,じょうぎ,ジョウギ,jougi,,règle,,regla,,ruler,images/ruler.png,audio/ja/ruler.mp3,audio/fr/ruler.mp3,audio/es/ruler.mp3
+20,glue,School Adventure,のり,糊,のり,ノリ,nori,,colle,,pegamento,,,images/glue.png,audio/ja/glue.mp3,audio/fr/glue.mp3,audio/es/glue.mp3
+21,eraser,School Adventure,けしゴム,消しゴム,けしごむ,ケシゴム,keshigomu,,gomme,,goma de borrar,goma|borrador,,images/eraser.png,audio/ja/eraser.mp3,audio/fr/eraser.mp3,audio/es/eraser.mp3
+22,pencil case,School Adventure,ふでばこ,筆箱,ふでばこ,フデバコ,fudebako,,trousse,,estuche,,,images/pencil_case.png,audio/ja/pencil_case.mp3,audio/fr/pencil_case.mp3,audio/es/pencil_case.mp3
+23,calculator,School Adventure,でんたく,電卓,でんたく,デンタク,dentaku,,calculatrice,,calculadora,,,images/calculator.png,audio/ja/calculator.mp3,audio/fr/calculator.mp3,audio/es/calculator.mp3
+24,paper,School Adventure,かみ,紙,かみ,カミ,kami,髪|神,papier,,papel,,,images/paper.png,audio/ja/paper.mp3,audio/fr/paper.mp3,audio/es/paper.mp3
+25,tree,Outdoor Adventure,き,木,き,キ,ki,,arbre,,árbol,,,images/tree.png,audio/ja/tree.mp3,audio/fr/tree.mp3,audio/es/tree.mp3
+26,flower,Outdoor Adventure,はな,花,はな,ハナ,hana,,fleur,,flor,,,images/flower.png,audio/ja/flower.mp3,audio/fr/flower.mp3,audio/es/flower.mp3
+27,stone,Outdoor Adventure,いし,石,いし,イシ,ishi,,pierre,,piedra,,,images/stone.png,audio/ja/stone.mp3,audio/fr/stone.mp3,audio/es/stone.mp3
+28,cloud,Outdoor Adventure,くも,雲,くも,クモ,kumo,,nuage,,nube,,,images/cloud.png,audio/ja/cloud.mp3,audio/fr/cloud.mp3,audio/es/cloud.mp3
+29,sun,Outdoor Adventure,たいよう,太陽,たいよう,タイヨウ,taiyou,日|おひさま,soleil,,sol,,,images/sun.png,audio/ja/sun.mp3,audio/fr/sun.mp3,audio/es/sun.mp3
+30,car,Outdoor Adventure,くるま,車,くるま,クルマ,kuruma,,voiture,auto,coche,auto|carro,,images/car.png,audio/ja/car.mp3,audio/fr/car.mp3,audio/es/car.mp3
+31,bicycle,Outdoor Adventure,じてんしゃ,自転車,じてんしゃ,ジテンシャ,jitensha,,vélo,bicyclette,bicicleta,,,images/bicycle.png,audio/ja/bicycle.mp3,audio/fr/bicycle.mp3,audio/es/bicycle.mp3
+32,ball,Outdoor Adventure,ボール,,ぼーる,ボール,booru,,ballon,balle,pelota,balón,,images/ball.png,audio/ja/ball.mp3,audio/fr/ball.mp3,audio/es/ball.mp3
+33,road,Outdoor Adventure,みち,道,みち,ミチ,michi,,route,,calle,camino|carretera,,images/road.png,audio/ja/road.mp3,audio/fr/road.mp3,audio/es/road.mp3
+34,house,Outdoor Adventure,いえ,家,いえ,イエ,ie,おうち|うち,maison,,casa,,,images/house.png,audio/ja/house.mp3,audio/fr/house.mp3,audio/es/house.mp3
