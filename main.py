@@ -52,46 +52,61 @@ function lq_button(text, color) {
   return b;
 }
 
-window.lq_hunt = async function(word, server) {
+window.lq_cam = null;
+function lq_place() {
+  if (!lq_cam) return;
+  var r = (document.getElementById("canvas") || document.querySelector("canvas")).getBoundingClientRect();
+  var sx = r.width / 800, sy = r.height / 640;
+  var v = lq_cam.video.style;
+  v.left = (r.left + 260 * sx) + "px"; v.top = (r.top + 254 * sy) + "px";
+  v.width = (280 * sx) + "px"; v.height = (210 * sy) + "px";
+}
+window.addEventListener("resize", lq_place);
+
+window.lq_open = async function() {
   lq.state = "busy"; lq.text = "";
-  var box = lq_box();
-  var video = document.createElement("video");
-  video.autoplay = true; video.playsInline = true; video.muted = true;
-  video.style.cssText = "max-width:90%;max-height:60%;border-radius:12px;";
-  var take = lq_button("Take photo", "#f064a0");
-  var cancel = lq_button("Cancel", "#777");
-  box.append(video, take, cancel);
-  document.body.appendChild(box);
   var stream;
   try {
     stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}});
   } catch (e) {
-    box.remove(); lq.text = "camera not allowed"; lq.state = "error"; return;
+    lq.text = "camera not allowed"; lq.state = "error"; return;
   }
+  var video = document.createElement("video");
+  video.autoplay = true; video.playsInline = true; video.muted = true;
   video.srcObject = stream;
-  function finish(state, text) {
-    stream.getTracks().forEach(function(t) { t.stop(); });
-    box.remove(); lq.text = text; lq.state = state;
-  }
-  cancel.onclick = function() { finish("error", "cancelled"); };
-  take.onclick = function() {
-    take.disabled = true; take.textContent = "Checking...";
-    var scale = Math.min(1, 640 / Math.max(video.videoWidth, video.videoHeight));
-    var c = document.createElement("canvas");
-    c.width = Math.round(video.videoWidth * scale); c.height = Math.round(video.videoHeight * scale);
-    c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
-    c.toBlob(async function(blob) {
-      try {
-        var f = new FormData();
-        f.append("word", word);
-        f.append("photo", blob, "photo.jpg");
-        var r = await fetch(server + "/hunt", {method: "POST", body: f});
-        if (!r.ok) throw new Error("server " + r.status);
-        var d = await r.json();
-        finish("done", d.correct ? "yes" : "no");
-      } catch (e) { finish("error", String(e)); }
-    }, "image/jpeg", 0.8);
-  };
+  video.style.cssText = "position:fixed;object-fit:cover;border-radius:6px;z-index:99999;";
+  document.body.appendChild(video);
+  lq_cam = {stream: stream, video: video};
+  lq_place();
+  lq.state = "live";
+};
+
+window.lq_close = function() {
+  if (!lq_cam) return;
+  lq_cam.stream.getTracks().forEach(function(t) { t.stop(); });
+  lq_cam.video.remove();
+  lq_cam = null;
+};
+
+window.lq_snap = function(word, server) {
+  lq.state = "busy"; lq.text = "";
+  if (!lq_cam || !lq_cam.video.videoWidth) { lq.text = "no camera"; lq.state = "error"; return; }
+  var video = lq_cam.video;
+  var scale = Math.min(1, 640 / Math.max(video.videoWidth, video.videoHeight));
+  var c = document.createElement("canvas");
+  c.width = Math.round(video.videoWidth * scale); c.height = Math.round(video.videoHeight * scale);
+  c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
+  c.toBlob(async function(blob) {
+    try {
+      var f = new FormData();
+      f.append("word", word);
+      f.append("photo", blob, "photo.jpg");
+      var r = await fetch(server + "/hunt", {method: "POST", body: f});
+      if (!r.ok) throw new Error("server " + r.status);
+      var d = await r.json();
+      lq.text = d.correct ? "yes" : "no"; lq.state = "done";
+    } catch (e) { lq.text = String(e); lq.state = "error"; }
+  }, "image/jpeg", 0.8);
 };
 
 window.lq_speak = async function(lang, server, seconds) {
@@ -131,7 +146,8 @@ try:
 except Exception as error:
     print("browser bridge failed:", error)
 
-lq_kind = ""                                   # "hunt" or "speak" while we wait for the browser
+lq_kind = ""                                   # "open", "hunt" or "speak" while we wait for the browser
+cam_on = False                                # WEB: is the camera open inside the frame
 
 def lq_read():
     "what the browser says now: (state, text)"
@@ -501,7 +517,7 @@ bus_start = 0            # when the bus left (0 = not moving)
 bus_time = 3000          # how long the drive takes (ms)
 instructions = {"learn": "Look, listen and say it!", "hunt": "Find this and show it to the camera!",
                 "cards": "Hold up the card for this word!", "speak": "Press the mic and say the word!"}
-test_mode = True         # Ctrl+W = win this game, Ctrl+S = give 3 stars here, Ctrl+R = reset my stamps. Put False before you submit!
+test_mode = False        # Ctrl+W = win this game, Ctrl+S = give 3 stars here, Ctrl+R = reset my stamps. Put False before you submit!
 captured = None          # the frozen picture after pressing Capture
 flash_until = 0          # little white flash when the picture is taken
 city_note = ""           # message on the map
@@ -1783,7 +1799,7 @@ play_music("audio/music/menu.ogg")
 clock = pygame.time.Clock()
 running = True
 async def main():
-    global lq_kind, adv, angle, audio, best, big, book, box, bus_at, bus_from, bus_start, bus_to, c, camera_picture, captured, checking, confirm_ask, confirm_what, count, dark, e, elapsed, event, extra, f, flash_until, frame, frame_box, g, game_passed, guide, happy, heard_text, hold_until, hover_before, hover_now, hovered, i, in_round, index, k, key, label, labels, lang, language, last_state, left, line, lines, listens_left, md, message, mine, mode, moment, n, name, need, now, over, panel, parts, passport_page, pic, picture, place, praised, r, record_buffer, record_start, recording, rect, result, result_time, reward_tier, rgb, rnd, row, running, scale, score, seq_pos, sfx_done, shift, shown, size, slot, small_book, sound, spot, stamp_saved, stamped, stamps_from, state, sx, sy, t, talk_page, talk_start, time_left, timer_index, tool_y, total, travel_country, travel_start, viewing, voice_done, voice_profile, voice_status, waiting_until, wave_pic, where, white, who, word, word_play_at, x, x2, y, y2
+    global lq_kind, cam_on, adv, angle, audio, best, big, book, box, bus_at, bus_from, bus_start, bus_to, c, camera_picture, captured, checking, confirm_ask, confirm_what, count, dark, e, elapsed, event, extra, f, flash_until, frame, frame_box, g, game_passed, guide, happy, heard_text, hold_until, hover_before, hover_now, hovered, i, in_round, index, k, key, label, labels, lang, language, last_state, left, line, lines, listens_left, md, message, mine, mode, moment, n, name, need, now, over, panel, parts, passport_page, pic, picture, place, praised, r, record_buffer, record_start, recording, rect, result, result_time, reward_tier, rgb, rnd, row, running, scale, score, seq_pos, sfx_done, shift, shown, size, slot, small_book, sound, spot, stamp_saved, stamped, stamps_from, state, sx, sy, t, talk_page, talk_start, time_left, timer_index, tool_y, total, travel_country, travel_start, viewing, voice_done, voice_profile, voice_status, waiting_until, wave_pic, where, white, who, word, word_play_at, x, x2, y, y2
     while running:
         #webcam for hunt + card mode
         frame=None
@@ -2012,10 +2028,15 @@ async def main():
                 if mode == "hunt":
                     if clicked(check_btn, event) and not checking:
                         checking = True
-                        message = "Take the photo..."
                         word = words[index]["english"]
-                        lq_kind = "hunt"                                     # WEB: the browser opens the camera
-                        platform.window.lq_hunt(word, SERVER)
+                        if cam_on:                                           # WEB: camera is open, take the photo
+                            message = "Checking object..."
+                            lq_kind = "hunt"
+                            platform.window.lq_snap(word, SERVER)
+                        else:                                                # WEB: first press opens the camera
+                            message = "Opening the camera..."
+                            lq_kind = "open"
+                            platform.window.lq_open()
                     if clicked(next_word_btn, event) and not checking:
                         index += 1
                         message = "Skipped"
@@ -2180,7 +2201,17 @@ async def main():
         #WEB: ask the browser how the camera / mic / server is doing
         if lq_kind != "":
             lq_state, lq_text = lq_read()
-            if lq_kind == "hunt":
+            if lq_kind == "open":
+                if lq_state == "live":
+                    cam_on = True
+                    checking = False
+                    message = "Press Capture to take the photo"
+                    lq_kind = ""
+                elif lq_state == "error":
+                    message = "Camera not allowed"
+                    checking = False
+                    lq_kind = ""
+            elif lq_kind == "hunt":
                 if lq_state == "busy":
                     message = "Checking object..."
                 elif lq_state == "done":
@@ -2188,7 +2219,8 @@ async def main():
                     checking = False
                     lq_kind = ""
                 elif lq_state == "error":
-                    message = "Try again!"
+                    message = "Try again! " + lq_text[:40]          # the reason, to find problems
+                    print("hunt error:", lq_text)
                     checking = False
                     lq_kind = ""
             elif lq_kind == "speak":
@@ -2208,6 +2240,9 @@ async def main():
                     recording = False
                     checking = False
                     lq_kind = ""
+        if cam_on and not (state == "play" and mode == "hunt"):     # WEB: left the Hunt screen, close the camera
+            platform.window.lq_close()
+            cam_on = False
            #USE API
         if result is not None:
             if state == "play":
