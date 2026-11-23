@@ -28,7 +28,8 @@ def make_sound(path):
 # ---------- WEB: camera, mic and the server go through the browser (JavaScript) ----------
 import platform
 
-SERVER = "https://servertest-6j5q.onrender.com"       # WEB: your Render link, no slash at the end
+SERVER = "https://YOUR-APP.onrender.com"       # WEB: your Render link, no slash at the end
+PAGE_COLOR = "#f9e4ec"                        # WEB: the color around the game (any color name or #code)
 
 class NoMic:                                   # the desktop mic does not exist in the browser
     def stop(self): pass
@@ -143,11 +144,13 @@ window.lq_speak = async function(lang, server, seconds) {
 try:
     platform.window.eval(JS)
     platform.window.lq_wake(SERVER)            # wakes the free Render server while the kid plays
+    platform.window.eval("document.body.style.background='" + PAGE_COLOR + "'; document.documentElement.style.background='" + PAGE_COLOR + "'")
 except Exception as error:
     print("browser bridge failed:", error)
 
 lq_kind = ""                                   # "open", "hunt" or "speak" while we wait for the browser
 cam_on = False                                # WEB: is the camera open inside the frame
+typed = ""
 
 def lq_read():
     "what the browser says now: (state, text)"
@@ -1799,7 +1802,7 @@ play_music("audio/music/menu.ogg")
 clock = pygame.time.Clock()
 running = True
 async def main():
-    global lq_kind, cam_on, adv, angle, audio, best, big, book, box, bus_at, bus_from, bus_start, bus_to, c, camera_picture, captured, checking, confirm_ask, confirm_what, count, dark, e, elapsed, event, extra, f, flash_until, frame, frame_box, g, game_passed, guide, happy, heard_text, hold_until, hover_before, hover_now, hovered, i, in_round, index, k, key, label, labels, lang, language, last_state, left, line, lines, listens_left, md, message, mine, mode, moment, n, name, need, now, over, panel, parts, passport_page, pic, picture, place, praised, r, record_buffer, record_start, recording, rect, result, result_time, reward_tier, rgb, rnd, row, running, scale, score, seq_pos, sfx_done, shift, shown, size, slot, small_book, sound, spot, stamp_saved, stamped, stamps_from, state, sx, sy, t, talk_page, talk_start, time_left, timer_index, tool_y, total, travel_country, travel_start, viewing, voice_done, voice_profile, voice_status, waiting_until, wave_pic, where, white, who, word, word_play_at, x, x2, y, y2
+    global lq_kind, cam_on, typed, adv, angle, audio, best, big, book, box, bus_at, bus_from, bus_start, bus_to, c, camera_picture, captured, checking, confirm_ask, confirm_what, count, dark, e, elapsed, event, extra, f, flash_until, frame, frame_box, g, game_passed, guide, happy, heard_text, hold_until, hover_before, hover_now, hovered, i, in_round, index, k, key, label, labels, lang, language, last_state, left, line, lines, listens_left, md, message, mine, mode, moment, n, name, need, now, over, panel, parts, passport_page, pic, picture, place, praised, r, record_buffer, record_start, recording, rect, result, result_time, reward_tier, rgb, rnd, row, running, scale, score, seq_pos, sfx_done, shift, shown, size, slot, small_book, sound, spot, stamp_saved, stamped, stamps_from, state, sx, sy, t, talk_page, talk_start, time_left, timer_index, tool_y, total, travel_country, travel_start, viewing, voice_done, voice_profile, voice_status, waiting_until, wave_pic, where, white, who, word, word_play_at, x, x2, y, y2
     while running:
         #webcam for hunt + card mode
         frame=None
@@ -1888,6 +1891,10 @@ async def main():
                         name= name[:-1] #remove last letter
                     elif len(name)<12 and event.unicode.isprintable():
                         name += event.unicode
+                if clicked(pygame.Rect(150, 230, 500, 60), event):          # WEB: phones have no keyboard for pygame, so the browser asks
+                    typed = platform.window.prompt("What is your name?", name)
+                    if typed and str(typed) != "None":
+                        name = str(typed)[:12]
                 if clicked(next_btn,event) and name !="":
                     start_talk("welcome", "language")
                 #-----VOICE--------
@@ -2410,7 +2417,7 @@ async def main():
          #NAME SELECTION
         elif state == "name":
             write("What is your name?", 150)
-            write (name + "|", 260)
+            write (name + "|" if name != "" else "Tap here to type", 260)
             button(next_btn,"Next")
 
         # SELECT LANG
