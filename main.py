@@ -28,7 +28,7 @@ def make_sound(path):
 # ---------- WEB: camera, mic and the server go through the browser (JavaScript) ----------
 import platform
 
-SERVER = "https://YOUR-APP.onrender.com"       # WEB: your Render link, no slash at the end
+SERVER = "https://servertest-6j5q.onrender.com"       # WEB: your Render link, no slash at the end
 
 class NoMic:                                   # the desktop mic does not exist in the browser
     def stop(self): pass
